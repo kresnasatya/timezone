@@ -2,91 +2,149 @@
     import { onInterval } from '$lib/utils';
     import { getTZDateTimeFormatted, getTZDifferenceFormatted, getConclusionOnTZDiff } from "$lib/timezone";
 
-	let singaporeTZ = 'Asia/Singapore';
-    let tokyoTZ = 'Asia/Tokyo';
-    let seoulTZ = 'Asia/Seoul';
-    let berlinTZ = 'Europe/Berlin';
-    let sydneyTZ = 'Australia/Sydney';
-    let vancouverTZ = 'America/Vancouver';
+    const timeZones = [
+        {
+            name: 'Singapore',
+            tz: 'Asia/Singapore'
+        },
+        {
+            name: 'Tokyo, Japan',
+            tz: 'Asia/Tokyo'
+        },
+        {
+            name: 'Seoul, South Korea',
+            tz: 'Asia/Seoul'
+        },
+        {
+            name: 'Berlin, Germany',
+            tz: 'Europe/Berlin'
+        },
+        {
+            name: 'Sydney, Australia',
+            tz: 'Australia/Sydney'
+        },
+        {
+            name: 'Cupertino, California',
+            tz: 'America/Vancouver'
+        }
+    ];
 
-    let singaporeTZFormatted = getTZDateTimeFormatted(singaporeTZ);
-    let tokyoTZFormatted = getTZDateTimeFormatted(tokyoTZ);
-    let seoulTZFormatted = getTZDateTimeFormatted(seoulTZ);
-    let berlinTZFormatted = getTZDateTimeFormatted(berlinTZ);
-    let sydneyTZFormatted = getTZDateTimeFormatted(sydneyTZ);
-    let vancouverTZFormatted = getTZDateTimeFormatted(vancouverTZ);
-
+    let currentTime = Date.now();
     onInterval(() => {
-        singaporeTZFormatted = getTZDateTimeFormatted(singaporeTZ);
-        tokyoTZFormatted = getTZDateTimeFormatted(tokyoTZ);
-        seoulTZFormatted = getTZDateTimeFormatted(seoulTZ);
-        berlinTZFormatted = getTZDateTimeFormatted(berlinTZ);
-        sydneyTZFormatted = getTZDateTimeFormatted(sydneyTZ);
-        vancouverTZFormatted = getTZDateTimeFormatted(vancouverTZ);
+        currentTime = Date.now();
     }, 1000);
-</script>
 
-<h1>timezone.kresna.me</h1>
-<p>Hi! I'm Kresna and I live in Bali Island, Indonesia. I want to see the time difference between my time and your time in that part of the world.</p>
-
-<p>Bali Island timezone: { singaporeTZFormatted }</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>City</th>
-            <th>Date, Time, Time Zone</th>
-            <th>Time Difference</th>
-            <th>Conclusion</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Singapore</td>
-            <td>{singaporeTZFormatted}</td>
-            <td>{getTZDifferenceFormatted(singaporeTZ, singaporeTZ)}</td>
-            <td>{getConclusionOnTZDiff(singaporeTZ, singaporeTZ)}</td>
-        </tr>
-        <tr>
-            <td>Tokyo, Japan</td>
-            <td>{tokyoTZFormatted}</td>
-            <td>{getTZDifferenceFormatted(singaporeTZ, tokyoTZ)}</td>
-            <td>{getConclusionOnTZDiff(singaporeTZ, seoulTZ)}</td>
-        </tr>
-        <tr>
-            <td>Seoul, South Korea</td>
-            <td>{seoulTZFormatted}</td>
-            <td>{getTZDifferenceFormatted(singaporeTZ, seoulTZ)}</td>
-            <td>{getConclusionOnTZDiff(singaporeTZ, seoulTZ)}</td>
-        </tr>
-        <tr>
-            <td>Berlin, Germany</td>
-            <td>{berlinTZFormatted}</td>
-            <td>{getTZDifferenceFormatted(singaporeTZ, berlinTZ)}</td>
-            <td>{getConclusionOnTZDiff(singaporeTZ, berlinTZ)}</td>
-        </tr>
-        <tr>
-            <td>Sydney, Australia</td>
-            <td>{sydneyTZFormatted}</td>
-            <td>{getTZDifferenceFormatted(singaporeTZ, sydneyTZ)}</td>
-            <td>{getConclusionOnTZDiff(singaporeTZ, sydneyTZ)}</td>
-        </tr>
-        <tr>
-            <td>Cupertino, California</td>
-            <td>{vancouverTZFormatted}</td>
-            <td>{getTZDifferenceFormatted(singaporeTZ, vancouverTZ)}</td>
-            <td>{getConclusionOnTZDiff(singaporeTZ, vancouverTZ)}</td>
-        </tr>
-    </tbody>
-</table>
-
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
+    /**
+	 * @param {string} timeZone
+	 */
+    function getTimeZoneClass(timeZone) {
+        const hours = parseInt(new Date().toLocaleString('en-US', { timeZone, hour: '2-digit', hour12: false }));
+        console.log(timeZone, hours);
+        if (hours >= 6 && hours < 18) {
+            return 'daytime';
+        } else {
+            return 'nighttime';
+        }
     }
 
-    th, td {
-        border: 1px solid;
+    /**
+	 * @param {string} timeZone
+	 */
+    function getTime(timeZone) {
+        const hours = parseInt(new Date().toLocaleString('en-US', { timeZone, hour: '2-digit', hour12: false }));
+        if (hours >= 6 && hours < 12) {
+            return 'morning';
+        } else if (hours >= 12 && hours < 18) {
+            return 'afternoon';
+        } else if (hours >= 18 && hours < 21) {
+            return 'evening';
+        } else {
+            return 'night';
+        }
+    }
+</script>
+
+<div class="container" style="margin: 0 auto;">
+    <h1>timezone.kresna.me</h1>
+    <p>Hi! I'm Kresna and I live in Bali Island, Indonesia. I wish I can work with you despite of overlap timezone.</p>
+    <p>Today is {getTZDateTimeFormatted('Asia/Singapore', currentTime)} in Bali Island and it's <span class="{getTime('Asia/Singapore')} inline-block p-2 rounded-md font-medium">{getTime('Asia/Singapore')}</span> time.</p>
+
+    {#each timeZones as timeZone}
+        <div class="rounded-md timezone {getTimeZoneClass(timeZone.tz)}">
+            <h2>{timeZone.name}</h2>
+            <p>Today is {getTZDateTimeFormatted(timeZone.tz, currentTime)} in {timeZone.name} and it's <span class="{getTime(timeZone.tz)} inline-block p-2 rounded-md font-medium">{getTime(timeZone.tz)}</span> time.</p>
+            <p class="conclusion"></p>
+        </div>
+    {/each}
+</div>
+
+<style>
+    .container {
+        width: 480px;
+    }
+
+    /* Medium screen */
+    @media only screen and (min-width: 768px) {
+        .container {
+            width: 640px;
+        }
+    }
+
+    /* Large screen */
+    @media only screen and (min-width: 1280px) {
+        .container {
+            width: 960px;
+        }
+    }
+
+    /* Utility class */
+    .p-2 {
+        padding: 0.5rem;
+    }
+
+    .rounded-md {
+        border-radius: 0.375rem; /* 6px */
+    }
+
+    .font-medium {
+        font-weight: 500;
+    }
+
+    .inline-block {
+        display: inline-block;
+    }
+
+    /* Time utility class */
+    .timezone {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .daytime {
+        background-color: #cce7ff; /* Light blue for day */
+        color: #000;
+    }
+
+    .nighttime {
+        background-color: #2c3e50; /* Dark blue for night */
+        color: #fff;
+    }
+
+    .morning {
+        background-color: #FFF9C4; /* Light Yellow */
+        color: #333333; /* Dark Gray */
+    }
+
+    .afternoon {
+        background-color: #FFEB3B; /* Bright Yellow */
+        color: #212121; /* Darker Gray */
+    }
+    
+    .evening {
+        color: #800080; /* Purple for evening */
+    }
+
+    .night {
+        color: #fff; /* White for night text */
     }
 </style>

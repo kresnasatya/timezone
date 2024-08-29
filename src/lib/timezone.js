@@ -1,7 +1,7 @@
 /**
  * @param {string} timeZone
  */
-export function getTZDateTimeFormatted(timeZone = 'Asia/Singapore') {
+export function getTZDateTimeFormatted(timeZone = 'Asia/Singapore', currentTime = Date.now()) {
     return new Intl.DateTimeFormat('en-US', {
         weekday: 'long',
         day: 'numeric',
@@ -13,7 +13,7 @@ export function getTZDateTimeFormatted(timeZone = 'Asia/Singapore') {
         hour12: false,
         timeZone,
         timeZoneName: 'longOffset'
-    }).format(new Date());
+    }).format(currentTime);
 }
 
 function getTZOffset(timeZone = 'Asia/Singapore') {
@@ -116,3 +116,37 @@ export function getConclusionOnTZDiff(tz1, tz2) {
         return `Great, I can catch up with you!`;
     }
 }
+
+/**
+ * @param {string} timeZone
+ */
+function getTimeFromTZ(timeZone) {
+    // Get the current time in the specified time zone
+    const formatter = new Intl.DateTimeFormat([], {
+        timeZone,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    });
+    const currentTime = formatter.format(new Date());
+    return currentTime;
+}
+
+/**
+ * @param {string} time
+ */
+// @ts-ignore
+export function isDayTime(time) {
+    // Split the time string to get hours, minutes, and seconds
+    const [hour, minute, second] = time.split(':').map(Number);
+
+    // Consider daytime from 06:00 AM (06:00) to 06:00 PM (18:00)
+    return hour >= 6 && hour < 18;
+}
+
+const timeZone = 'Asia/Singapore';
+const localTime = getTimeFromTZ(timeZone);
+
+console.log(`Time in ${timeZone}: ${localTime}`);
+console.log(isDayTime(localTime) ? `It's day time.` : `It's night time.`);
