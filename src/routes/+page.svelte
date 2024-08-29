@@ -26,8 +26,6 @@
     }, 1000);
 </script>
 
-<p>{singaporeTZFormatted}</p>
-
 <h1>timezone.kresna.me</h1>
 <p>Hi! I'm Kresna and I live in Bali Island, Indonesia. I want to see the time difference between my time and your time in that part of the world.</p>
 
