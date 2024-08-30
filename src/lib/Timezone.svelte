@@ -22,7 +22,7 @@
     let currentTime = Date.now();
     onInterval(() => {
         currentTime = Date.now();
-    }, 60000);
+    }, 1000);
 </script>
 
 <div style="width: 100%; border: 1px solid gray;" class="rounded-md timezone">
