@@ -22,14 +22,14 @@ export function getTZName(timeZone = 'Asia/Singapore') {
     }).formatToParts().find(part => part.type === 'timeZoneName')?.value;
 }
 
-export function getFullDate(timeZone = 'Asia/Singapore') {
+export function getFullDate(timeZone = 'Asia/Singapore', currentTime = Date.now()) {
     return Intl.DateTimeFormat('en-US', {
         dateStyle: 'full',
         timeZone: timeZone,
     }).format(new Date());
 }
 
-export function getTime(timeZone = 'Asia/Singapore', hour12 = true) {
+export function getTime(timeZone = 'Asia/Singapore', currentTime = Date.now(), hour12 = true) {
     return Intl.DateTimeFormat('en-US', {
         timeStyle: 'short',
         hour12,
