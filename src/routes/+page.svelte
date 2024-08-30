@@ -32,7 +32,7 @@
     let currentTime = Date.now();
     onInterval(() => {
         currentTime = Date.now();
-    }, 1000);
+    }, 60000);
 
     /**
 	 * @param {string} timeZone

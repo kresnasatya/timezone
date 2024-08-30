@@ -9,7 +9,6 @@ export function getTZDateTimeFormatted(timeZone = 'Asia/Singapore', currentTime 
         year: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
-        second: 'numeric',
         hour12: false,
         timeZone,
         timeZoneName: 'longOffset'
