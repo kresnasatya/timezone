@@ -15,6 +15,28 @@ export function getTZDateTimeFormatted(timeZone = 'Asia/Singapore', currentTime 
     }).format(currentTime);
 }
 
+export function getTZName(timeZone = 'Asia/Singapore') {
+    return new Intl.DateTimeFormat('en-US', {
+        timeZone,
+        timeZoneName: 'longOffset'
+    }).formatToParts().find(part => part.type === 'timeZoneName')?.value;
+}
+
+export function getFullDate(timeZone = 'Asia/Singapore') {
+    return Intl.DateTimeFormat('en-US', {
+        dateStyle: 'full',
+        timeZone: timeZone,
+    }).format(new Date());
+}
+
+export function getTime(timeZone = 'Asia/Singapore', hour12 = true) {
+    return Intl.DateTimeFormat('en-US', {
+        timeStyle: 'short',
+        hour12,
+        timeZone: timeZone,
+    }).format(new Date());
+}
+
 function getTZOffset(timeZone = 'Asia/Singapore') {
     // Create date object
     const date = new Date();
@@ -144,8 +166,30 @@ export function isDayTime(time) {
     return hour >= 6 && hour < 18;
 }
 
-const timeZone = 'Asia/Singapore';
-const localTime = getTimeFromTZ(timeZone);
+const weekday = Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    timeZone: 'Asia/Singapore',
+}).format(new Date());
 
-console.log(`Time in ${timeZone}: ${localTime}`);
-console.log(isDayTime(localTime) ? `It's day time.` : `It's night time.`);
+const day = Intl.DateTimeFormat('en-US', {
+    day: 'numeric',
+    timeZone: 'Asia/Singapore',
+}).format(new Date());
+
+const month = Intl.DateTimeFormat('en-US', {
+    month: 'long',
+    timeZone: 'Asia/Singapore',
+}).format(new Date());
+
+const year = Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    timeZone: 'Asia/Singapore',
+}).format(new Date());
+
+const dayStyle = Intl.DateTimeFormat('en-US', {
+    dateStyle: 'full',
+    timeZone: 'Asia/Singapore',
+}).format(new Date());
+
+console.log(weekday, day, month, year);
+console.log(dayStyle);
