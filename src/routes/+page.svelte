@@ -1,8 +1,13 @@
 <script>
     import { onInterval } from '$lib/utils';
-    import { getTZDateTimeFormatted, getTZDifferenceFormatted, getConclusionOnTZDiff } from "$lib/timezone";
+    import { getTZDateTimeFormatted, getTZName, getFullDate, getTime } from "$lib/timezone";
 
-    const timeZones = [
+    const defaultTimeZone = {
+        name: 'Bali Island',
+        tz: 'Asia/Makassar'
+    };
+
+    const asiaTimeZones = [
         {
             name: 'Singapore',
             tz: 'Asia/Singapore'
@@ -14,15 +19,24 @@
         {
             name: 'Seoul, South Korea',
             tz: 'Asia/Seoul'
-        },
+        }
+    ];
+
+    const europeTimeZones = [
         {
             name: 'Berlin, Germany',
             tz: 'Europe/Berlin'
-        },
+        }
+    ];
+
+    const australiaTimeZones = [
         {
             name: 'Sydney, Australia',
             tz: 'Australia/Sydney'
-        },
+        }
+    ];
+
+    const americaTimeZones = [
         {
             name: 'Cupertino, California',
             tz: 'America/Vancouver'
@@ -50,7 +64,7 @@
     /**
 	 * @param {string} timeZone
 	 */
-    function getTime(timeZone) {
+    function getTimeClass(timeZone) {
         const hours = parseInt(new Date().toLocaleString('en-US', { timeZone, hour: '2-digit', hour12: false }));
         if (hours >= 6 && hours < 12) {
             return 'morning';
@@ -66,14 +80,97 @@
 
 <div class="container" style="margin: 0 auto;">
     <h1>timezone.kresna.me</h1>
-    <p>Hi! I'm Kresna and I live in Bali Island, Indonesia. I wish I can work with you despite of overlap timezone.</p>
-    <p>Today is {getTZDateTimeFormatted('Asia/Singapore', currentTime)} in Bali Island and it's <span class="{getTime('Asia/Singapore')} inline-block p-2 rounded-md font-medium">{getTime('Asia/Singapore')}</span> time.</p>
+    <p>Hi! I'm Kresna and I live in {defaultTimeZone.name}, Indonesia. I wish I can work with you despite of overlap timezone.</p>
 
-    {#each timeZones as timeZone}
-        <div class="rounded-md timezone {getTimeZoneClass(timeZone.tz)}">
-            <h2>{timeZone.name}</h2>
-            <p>Today is {getTZDateTimeFormatted(timeZone.tz, currentTime)} in {timeZone.name} and it's <span class="{getTime(timeZone.tz)} inline-block p-2 rounded-md font-medium">{getTime(timeZone.tz)}</span> time.</p>
-            <p class="conclusion"></p>
+    <div style="width: 100%; border: 1px solid gray;" class="rounded-md timezone">
+        <p class="font-medium" style="font-size: 1.25rem; margin: 0; padding: 0;">{defaultTimeZone.name} <span class="{getTimeClass(defaultTimeZone.tz)} inline-block p-2 rounded-md font-medium">{getTimeClass(defaultTimeZone.tz)}</span></p>
+        <div style="display: flex; justify-content: space-between; gap: 4px;">
+            <div>
+                <p>{defaultTimeZone.tz}</p>
+                <p style="color: gray;">{getTZName(defaultTimeZone.tz)}</p>
+            </div>
+            <div>
+                <p style="color: gray;">{getFullDate(defaultTimeZone.tz)}</p>
+            </div>
+            <div>
+                <p>{getTime(defaultTimeZone.tz)}</p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Asia</h2>
+    {#each asiaTimeZones as timeZone}
+        <div style="width: 100%; border: 1px solid gray;" class="rounded-md timezone">
+            <p class="font-medium" style="font-size: 1.25rem; margin: 0; padding: 0;">{timeZone.name} <span class="{getTimeClass(timeZone.tz)} inline-block p-2 rounded-md font-medium">{getTimeClass(timeZone.tz)}</span></p>
+            <div style="display: flex; justify-content: space-between; gap: 4px;">
+                <div>
+                    <p>{timeZone.tz}</p>
+                    <p style="color: gray;">{getTZName(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p style="color: gray;">{getFullDate(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p>{getTime(timeZone.tz)}</p>
+                </div>
+            </div>
+        </div>
+    {/each}
+
+    <h2>Australia</h2>
+    {#each australiaTimeZones as timeZone}
+        <div style="width: 100%; border: 1px solid gray;" class="rounded-md timezone">
+            <p class="font-medium" style="font-size: 1.25rem; margin: 0; padding: 0;">{timeZone.name} <span class="{getTimeClass(timeZone.tz)} inline-block p-2 rounded-md font-medium">{getTimeClass(timeZone.tz)}</span></p>
+            <div style="display: flex; justify-content: space-between; gap: 4px;">
+                <div>
+                    <p>{timeZone.tz}</p>
+                    <p style="color: gray;">{getTZName(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p style="color: gray;">{getFullDate(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p>{getTime(timeZone.tz)}</p>
+                </div>
+            </div>
+        </div>
+    {/each}
+
+    <h2>Europe</h2>
+    {#each europeTimeZones as timeZone}
+        <div style="width: 100%; border: 1px solid gray;" class="rounded-md timezone">
+            <p class="font-medium" style="font-size: 1.25rem; margin: 0; padding: 0;">{timeZone.name} <span class="{getTimeClass(timeZone.tz)} inline-block p-2 rounded-md font-medium">{getTimeClass(timeZone.tz)}</span></p>
+            <div style="display: flex; justify-content: space-between; gap: 4px;">
+                <div>
+                    <p>{timeZone.tz}</p>
+                    <p style="color: gray;">{getTZName(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p style="color: gray;">{getFullDate(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p>{getTime(timeZone.tz)}</p>
+                </div>
+            </div>
+        </div>
+    {/each}
+
+    <h2>America</h2>
+    {#each americaTimeZones as timeZone}
+        <div style="width: 100%; border: 1px solid gray;" class="rounded-md timezone">
+            <p class="font-medium" style="font-size: 1.25rem; margin: 0; padding: 0;">{timeZone.name} <span class="{getTimeClass(timeZone.tz)} inline-block p-2 rounded-md font-medium">{getTimeClass(timeZone.tz)}</span></p>
+            <div style="display: flex; justify-content: space-between; gap: 4px;">
+                <div>
+                    <p>{timeZone.tz}</p>
+                    <p style="color: gray;">{getTZName(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p style="color: gray;">{getFullDate(timeZone.tz)}</p>
+                </div>
+                <div>
+                    <p>{getTime(timeZone.tz)}</p>
+                </div>
+            </div>
         </div>
     {/each}
 </div>
