@@ -141,10 +141,12 @@
     }
     
     .evening {
-        color: #800080; /* Purple for evening */
+        background-color: #4b0082; /* Indigo for evening */
+        color: #dda0dd; /* Purple for evening */
     }
 
     .night {
-        color: #fff; /* White for night text */
+        background-color: #000033; /* Very dark blue for night */
+        color: #ffffff; /* White for night text */
     }
 </style>
