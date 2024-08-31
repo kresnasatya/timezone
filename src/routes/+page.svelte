@@ -1,5 +1,5 @@
 <script>
-	import Timezone from '$lib/Timezone.svelte';
+    import Timezone from '$lib/Timezone.svelte';
 
     const defaultTimeZone = {
         name: 'Bali Island',
@@ -43,7 +43,7 @@
     ];
 </script>
 
-<div class="container" style="margin: 0 auto;">
+<div class="container" style="margin: 0 auto; padding: 1rem;">
     <h1>timezone.kresna.me</h1>
     <p>Hi! I'm Kresna and I live in {defaultTimeZone.name}, Indonesia. I wish I can work with you despite of overlap timezone.</p>
 
@@ -72,20 +72,20 @@
 
 <style>
     .container {
-        width: 480px;
+        width: 100%;
     }
 
     /* Medium screen */
     @media only screen and (min-width: 768px) {
         .container {
-            width: 640px;
+            max-width: 640px;
         }
     }
 
     /* Large screen */
     @media only screen and (min-width: 1280px) {
         .container {
-            width: 960px;
+            max-width: 960px;
         }
     }
 </style>
