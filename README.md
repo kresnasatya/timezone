@@ -1,2 +1,3 @@
 # timezone.kresna.me
-Kresna around the world! Yeay! ✈️🌏
+
+Kresna arounds the world! Yeay! ✈️🌏. Build with SvelteKit.
